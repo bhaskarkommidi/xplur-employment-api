@@ -102,3 +102,28 @@ Documents your database design and schemas, relations etc...
 ## Licensing
 
 State what the license is and how to find the text version of the license.
+
+
+
+
+
+############
+Using Command Line to Create New Branch in GitHub
+
+$ git branch <branch-name>
+
+$ git checkout <branch-name>
+
+$  git checkout -b <branch-name>
+
+$ git push -u <remote> <branch-name>
+
+
+
+############
+$ git checkout master
+Switched to branch 'master'
+$ git merge main
+Merge made by the 'recursive' strategy.
+app.py |    1 +
+1 file changed, 1 insertion(+)

@@ -48,9 +48,9 @@ If your project needs some additional steps for the developer to build the
 project after some code changes, state them here. for example:
 
 ```shell
-./configure
-make
-make install
+>>cd xplur-employment-api
+
+>> python app.py
 ```
 
 Here again you should state what actually happens when the code above gets

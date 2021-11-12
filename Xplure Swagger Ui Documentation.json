@@ -1,0 +1,458 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Xplur Education Tech",
+    "description": "Xplur Platform Education Tech APIs",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.xplur.com.au/scores/v1/"
+    }
+  ],
+  "paths": {
+    "/{Client ID}/{Secret Key}/token": {
+      "post": {
+        "description": "Genearte a new JWT token.",
+        "parameters": [
+          {
+            "name": "Client ID",
+            "in": "path",
+            "description": "calling system.",
+            "example": "Xp234ll",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Secret Key",
+            "in": "path",
+            "example": "v$%^HJJJ",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request to generate a new JWT token",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JWTToken"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The JWS token was generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JWTToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "415": {
+            "$ref": "#/components/responses/415"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "default": {
+            "$ref": "#/components/responses/default"
+          }
+        }
+      }
+    },
+    "/scores/v1/": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Upload you file [.pdf \".doc .docx]",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "fatch desire data",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "PassportNumber",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Name",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "ref23456789lk"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Organization Name",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "xyz.LLP"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "You are under process",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User_input"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UnauthorizedError Token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scores/v1/result": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "fatch desire data",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "refrenceId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User_profile_DB"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acces Deined",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "421": {
+            "description": "too may request at time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "xpl-x-next-call: 5000"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User_profile_DB": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 46
+          },
+          "name": {
+            "type": "string",
+            "example": "kumar"
+          },
+          "university_id": {
+            "type": "integer",
+            "example": "un0123456789"
+          },
+          "passport_id": {
+            "type": "string",
+            "example": "pa0123456789"
+          },
+          "street1": {
+            "type": "string",
+            "example": "LOT 123 David Street"
+          },
+          "city": {
+            "type": "string",
+            "example": "Sydney"
+          },
+          "state": {
+            "type": "string",
+            "example": "NSW"
+          },
+          "zip": {
+            "type": "integer",
+            "example": 2000
+          },
+          "country": {
+            "type": "string",
+            "example": "Au"
+          },
+          "resource_engagement_score": {
+            "type": "integer",
+            "example": 6
+          },
+          "resource_engagement_grade": {
+            "type": "string",
+            "example": "Medium"
+          },
+          "resource_bgv_score": {
+            "type": "integer",
+            "example": 7
+          },
+          "resource_bgv_grade": {
+            "type": "string",
+            "example": "Amber"
+          },
+          "resource_employability_index": {
+            "type": "integer",
+            "example": 6
+          },
+          "resource_employability_grade": {
+            "type": "string",
+            "example": "SemiSkilled"
+          },
+          "updated_date": {
+            "type": "integer",
+            "example": "2020-08-22T09:11:43.679"
+          },
+          "requested_date": {
+            "type": "string",
+            "example": "2020-08-22T09:11:43.679"
+          },
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "clientId": {
+            "type": "string",
+            "example": "abc"
+          },
+          "userId": {
+            "type": "string",
+            "example": "xyz@abc.com.au"
+          }
+        }
+      },
+      "User_input": {
+        "type": "object",
+        "properties": {
+          "refrence_id": {
+            "type": "string",
+            "example": "un0123456789ref"
+          }
+        }
+      },
+      "UnauthorizedError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "example": "Acsses Denied"
+          }
+        }
+      },
+      "JWTToken": {
+        "type": "object",
+        "properties": {
+          "imsi": {
+            "type": "string",
+            "example": 310129820000001
+          },
+          "mdn": {
+            "type": "string",
+            "example": 9085551212
+          },
+          "feat": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minItems": 1,
+              "example": [
+                "FC1",
+                "FC2",
+                "FC3"
+              ]
+            }
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+          }
+        },
+        "required": [
+          "imsi",
+          "mdn",
+          "feat"
+        ]
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "It contains information about outcome of JWT Factory.",
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ERROR",
+                  "INVALID_REQUEST",
+                  "INVALID_ORIGIN",
+                  "INVALID_TYPE"
+                ]
+              }
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "description": "It contains text with human-friendly information about root cause of the failure."
+          }
+        },
+        "required": [
+          "title",
+          "detail"
+        ]
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Bad Request",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Forbidden",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not Found",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        }
+      },
+      "415": {
+        "description": "Unsupported Media Type",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        }
+      },
+      "default": {
+        "description": "default error",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
